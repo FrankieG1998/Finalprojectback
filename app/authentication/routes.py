@@ -47,8 +47,6 @@ def signin():
             else:
                 flash('Login Failed.', 'auth-failed')
                 return redirect(url_for('auth.signin'))
-    #except Exception as error:
-        #print("An exception occurred:", error)
     except:
         raise Exception('Invalid Form Data: Please Check your Form')
     return render_template('sign_in.html', form=form)
