@@ -24,10 +24,8 @@ def signup():
 
             flash(f'User account created successfully, {email}', 'User-created')
             return redirect(url_for('site.home'))
-    except Exception as error:
-        print("An exception occurred:", error)
-    #except:
-        #raise Exception('Invalid form data: Please check your form')
+    except:
+        raise Exception('Invalid form data: Please check your form')
     return render_template('sign_up.html', form=form)
 
 
