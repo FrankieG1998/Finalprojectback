@@ -67,7 +67,7 @@ class Image(db.Model):
         self.user_token = user_token
 
     def __repr__(self):
-        return f'The following Iamge has been added to the Gallery: {self.image_title}'
+        return f'The following Image has been added to the Gallery: {self.image_title}'
 
     def set_id(self):
         return (secrets.token_urlsafe())
