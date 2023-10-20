@@ -16,11 +16,11 @@ class Config():
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Any text as a secret key'
 
     # Replace these with your ElephantSQL connection details
-    ELEPHANTSQL_USER = os.environ.get('ELEPHANTSQL_USER')
-    ELEPHANTSQL_PASSWORD = os.environ.get('ELEPHANTSQL_PASSWORD')
-    ELEPHANTSQL_HOST = os.environ.get('ELEPHANTSQL_HOST')
-    ELEPHANTSQL_PORT = os.environ.get('ELEPHANTSQL_PORT')
-    ELEPHANTSQL_DATABASE = os.environ.get('ELEPHANTSQL_DATABASE')
+    ELEPHANTSQL_USER = os.environ.get('xdyoyyen')
+    ELEPHANTSQL_PASSWORD = os.environ.get('YWUh2Qz_05ZyzKtTLefPUhxF6e5hzQdi')
+    ELEPHANTSQL_HOST = os.environ.get('dpg-ckpbg1bm0msc738p8ik0-a')
+    ELEPHANTSQL_PORT = os.environ.get('5432')
+    ELEPHANTSQL_DATABASE = os.environ.get('finalprojectback')
 
     # Constructing the ElephantSQL connection string
     SQLALCHEMY_DATABASE_URI = f"postgresql://{ELEPHANTSQL_USER}:{ELEPHANTSQL_PASSWORD}@{ELEPHANTSQL_HOST}:{ELEPHANTSQL_PORT}/{ELEPHANTSQL_DATABASE}"
