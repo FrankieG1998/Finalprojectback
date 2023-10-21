@@ -78,3 +78,5 @@ class ImageSchema(ma.Schema):
 
 image_schema = ImageSchema()
 images_schema = ImageSchema(many=True)
+
+db.create_all()
