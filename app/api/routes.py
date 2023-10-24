@@ -1,4 +1,4 @@
-from flask import current_app as app
+from flask import current_app
 from werkzeug.utils import secure_filename
 import os
 from flask import Flask, Blueprint, request, jsonify, render_template
@@ -42,8 +42,17 @@ def create_image(current_user_token):
         image_type = request.form.get('image_type', '')
         user_token = current_user_token.token
 
-        image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)
+        # Check if the User Token Exists
+        user = User.query.filter_by(token=user_token).first()
 
+        # Insert User if Not Present
+        if user is None:
+            new_user = User(token=user_token)
+            db.session.add(new_user)
+            db.session.commit()
+
+        # Insert Image Record
+        image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)
         db.session.add(image)
         db.session.commit()
 
@@ -94,3 +103,4 @@ def delete_image(current_user_token, id):
     db.session.commit()
     response = image_schema.dump(image)
     return jsonify(response)
+
