@@ -13,18 +13,22 @@ def signup():
 
     try:
         if request.method == 'POST'
-        if form.validate_on_submit():
-            email = form.email.data
-            password = form.password.data
-            print(email, password)
+            if form.validate_on_submit():
+                email = form.email.data
+                password = form.password.data
+                print(email, password)
 
-            user = User(email, password = password)
+                user = User(email, password = password)
 
-            db.session.add(user)
-            db.session.commit()
+                db.session.add(user)
+                db.session.commit()
 
-            flash(f'User account created successfully, {email}', 'User-created')
-            return redirect(url_for('site.home'))
+                flash(f'User account created successfully, {email}', 'User-created')
+                return redirect(url_for('site.home'))
+            else:
+	            print("ERROR failed validate_on_submit")
+        else:
+            print("Request method isn't post")
     except:
         raise Exception('Invalid form data: Please check your form')
     return render_template('sign_up.html', form=form)
