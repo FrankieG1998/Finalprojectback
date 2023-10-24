@@ -1,7 +1,7 @@
 from flask import current_app as app
 from werkzeug.utils import secure_filename
 import os
-from flask import Flask, Blueprint, request, jsonify, render_template, current_app
+from flask import Flask, Blueprint, request, jsonify, render_template
 from helpers import token_required
 from models import db, User, Image, image_schema, images_schema
 
