@@ -12,7 +12,7 @@ def signup():
     form = UserLoginForm()
 
     if request.method == 'POST':
-	try:
+        try:
             if form.validate_on_submit():
                 email = form.email.data
                 password = form.password.data
@@ -27,11 +27,11 @@ def signup():
                 return redirect(url_for('site.home'))
             else:
 	            print("ERROR failed validate_on_submit")
-	except:
+        except:
         	raise Exception('Invalid form data: Please check your form')
-    else:
-        print("Request method isn't post")
-    return render_template('sign_up.html', form=form)
+        else:
+                print("Request method isn't post")
+        return render_template('sign_up.html', form=form)
 
 
 @auth.route('/signin', methods = ['GET', 'POST'])
@@ -60,3 +60,4 @@ def signin():
 def logout():
     logout_user()
     return redirect(url_for('site.home'))
+
