@@ -15,7 +15,7 @@ def getdata():
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
 
 def allowed_file(filename):
     return '.' in filename and \
