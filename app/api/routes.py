@@ -1,3 +1,4 @@
+from __init__ import app
 from werkzeug.utils import secure_filename
 import os
 from flask import Flask, Blueprint, request, jsonify, render_template, current_app
@@ -15,7 +16,7 @@ def getdata():
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
