@@ -11,6 +11,8 @@ from flask_cors import CORS
 from helpers import JSONEncoder
 
 app = Flask(__name__)
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
 app.register_blueprint(site)
