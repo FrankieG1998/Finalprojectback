@@ -11,8 +11,8 @@ auth = Blueprint('auth', __name__, template_folder='auth_templates')
 def signup():
     form = UserLoginForm()
 
-    try:
-        if request.method == 'POST':
+if request.method == 'POST':
+	try:
             if form.validate_on_submit():
                 email = form.email.data
                 password = form.password.data
@@ -27,10 +27,10 @@ def signup():
                 return redirect(url_for('site.home'))
             else:
 	            print("ERROR failed validate_on_submit")
+	except:
+        	raise Exception('Invalid form data: Please check your form')
         else:
             print("Request method isn't post")
-    except:
-        raise Exception('Invalid form data: Please check your form')
     return render_template('sign_up.html', form=form)
 
 
