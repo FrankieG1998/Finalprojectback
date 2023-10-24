@@ -1,4 +1,6 @@
-from flask import Blueprint, request, jsonify, render_template
+from werkzeug.utils import secure_filename
+import os
+from flask import Flask, Blueprint, request, jsonify, render_template
 from helpers import token_required
 from models import db, User, Image, image_schema, images_schema
 
@@ -10,26 +12,47 @@ api = Blueprint('api',__name__, url_prefix='/api')
 def getdata():
     return {'test': 'testgalleryapi'}
 
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 #Add A Image
-@api.route('/images', methods = ['POST'])
+@api.route('/images', methods=['POST'])
 @token_required
 def create_image(current_user_token):
-    image_title = request.json['image_title']
-    image_url = request.json['image_url']
-    creator_name = request.json['creator_name']
-    no_of_downloads = request.json['no_of_downloads']
-    image_type = request.json['image_type']
-    user_token = current_user_token.token
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
 
-    print(f'GREAT TESTER: {current_user_token.token}')
+    file = request.files['file']
 
-    image = Image(image_title,image_url,creator_name,no_of_downloads,image_type, user_token = user_token )
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
 
-    db.session.add(image)
-    db.session.commit()
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
 
-    response = image_schema.dump(image)
-    return jsonify(response)
+        image_title = request.form.get('image_title', '')
+        image_url = filepath  # Now it points to an actual file
+        creator_name = request.form.get('creator_name', '')
+        no_of_downloads = int(request.form.get('no_of_downloads', 0))
+        image_type = request.form.get('image_type', '')
+        user_token = current_user_token.token
+
+        image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)
+
+        db.session.add(image)
+        db.session.commit()
+
+        response = image_schema.dump(image)
+        return jsonify(response)
+
 
 #Get List of Images
 @api.route('/images', methods = ['GET'])
