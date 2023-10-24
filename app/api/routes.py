@@ -1,4 +1,4 @@
-from Finalprojectback.app import app
+from .. import app
 from werkzeug.utils import secure_filename
 import os
 from flask import Flask, Blueprint, request, jsonify, render_template, current_app
@@ -15,7 +15,6 @@ def getdata():
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
