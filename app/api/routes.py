@@ -1,4 +1,4 @@
-from app import app
+from Finalprojectback.app import app
 from werkzeug.utils import secure_filename
 import os
 from flask import Flask, Blueprint, request, jsonify, render_template, current_app
