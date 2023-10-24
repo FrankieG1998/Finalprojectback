@@ -13,7 +13,7 @@ def getdata():
 #Add A Image
 @api.route('/images', methods = ['POST'])
 @token_required
-def create_book(current_user_token):
+def create_image(current_user_token):
     image_title = request.json['image_title']
     image_url = request.json['image_url']
     creator_name = request.json['creator_name']
@@ -34,7 +34,7 @@ def create_book(current_user_token):
 #Get List of Images
 @api.route('/images', methods = ['GET'])
 @token_required
-def get_book(current_user_token):
+def get_image(current_user_token):
     a_user = current_user_token.token
     images = Image.query.filter_by(user_token = a_user).all()
     response = images_schema.dump(images)
@@ -43,7 +43,7 @@ def get_book(current_user_token):
 #get details of sepcific image
 @api.route('/images/<id>', methods = ['GET'])
 @token_required
-def get_single_book(current_user_token, id):    # Currently showing cars of other users as well 
+def get_single_image(current_user_token, id):    # Currently showing cars of other users as well 
     image = Image.query.get(id)
     response = image_schema.dump(image)
     return jsonify(response)
@@ -68,7 +68,7 @@ def update_image(current_user_token,id):
 # Delete Specific Image
 @api.route('/images/<id>', methods = ['DELETE'])
 @token_required
-def delete_book(current_user_token, id):
+def delete_image(current_user_token, id):
     image = Image.query.get(id)
     db.session.delete(image)
     db.session.commit()
