@@ -32,7 +32,7 @@ def create_image(current_user_token):
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        #filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#
         file.save(filepath)
 
         image_title = request.form.get('image_title', '')
