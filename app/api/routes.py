@@ -32,33 +32,33 @@ def create_image(current_user_token):
 
     if file and allowed_file(file.filename):
         firebase.storage().put(file)
-        #filename = secure_filename(file.filename)
+        #filename = secure_filename(file.filename)#
         #filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#
-        file.save(filepath)
+        #file.save(filepath)#
 
-        image_title = request.form.get('image_title', '')
-        image_url = filepath  # Now it points to an actual file
-        creator_name = request.form.get('creator_name', '')
-        no_of_downloads = int(request.form.get('no_of_downloads', 0))
-        image_type = request.form.get('image_type', '')
-        user_token = current_user_token.token
+        #image_title = request.form.get('image_title', '')#
+        #image_url = filepath  # Now it points to an actual file#
+        #creator_name = request.form.get('creator_name', '')#
+        #no_of_downloads = int(request.form.get('no_of_downloads', 0))#
+        #image_type = request.form.get('image_type', '')#
+        #user_token = current_user_token.token#
 
-        # Check if the User Token Exists
-        user = User.query.filter_by(token=user_token).first()
+        # Check if the User Token Exists#
+        #user = User.query.filter_by(token=user_token).first()#
 
-        # Insert User if Not Present
-        if user is None:
-            new_user = User(token=user_token)
-            db.session.add(new_user)
-            db.session.commit()
+        # Insert User if Not Present#
+        #if user is None:#
+            #new_user = User(token=user_token)#
+            #db.session.add(new_user)#
+            #db.session.commit()#
 
         # Insert Image Record
-        image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)
-        db.session.add(image)
-        db.session.commit()
+        #image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)#
+        #db.session.add(image)#
+        #db.session.commit()#
 
-        response = image_schema.dump(image)#
-        return jsonify(response)
+        #response = image_schema.dump(image)#
+        return jsonify({'Success!. File uploaded!'})
 
 
 #Get List of Images
