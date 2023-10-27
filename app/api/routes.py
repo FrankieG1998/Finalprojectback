@@ -31,7 +31,8 @@ def create_image(current_user_token):
         return jsonify({'error': 'No selected file'})
 
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        firebase.storage().put(file)
+        #filename = secure_filename(file.filename)
         #filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#
         file.save(filepath)
 
@@ -56,7 +57,7 @@ def create_image(current_user_token):
         db.session.add(image)
         db.session.commit()
 
-        response = image_schema.dump(image)
+        response = image_schema.dump(image)#
         return jsonify(response)
 
 
