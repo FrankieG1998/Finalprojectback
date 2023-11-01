@@ -35,8 +35,17 @@ def create_image(current_user_token):
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
+        # Upload the image to Firebase Storage
+        firebase_storage_path = f"images/{filename}"  # Set the path in Firebase Storage
+
+        blob = bucket.blob(firebase_storage_path)
+        blob.upload_from_filename(filepath)
+
+        # Clean up the local file
+        os.remove(filepath)
+
         image_title = request.form.get('image_title', '')
-        image_url = filepath  # Now it points to an actual file
+        image_url = blob.public_url  # Firebase Storage URL
         creator_name = request.form.get('creator_name', '')
         no_of_downloads = int(request.form.get('no_of_downloads', 0))
         image_type = request.form.get('image_type', '')
@@ -51,14 +60,13 @@ def create_image(current_user_token):
             db.session.add(new_user)
             db.session.commit()
 
-        # Insert Image Record
+        # Insert Image Record with Firebase Storage URL
         image = Image(image_title, image_url, creator_name, no_of_downloads, image_type, user_token=user_token)
         db.session.add(image)
         db.session.commit()
 
         response = image_schema.dump(image)
         return jsonify(response)
-
 
 #Get List of Images
 @api.route('/images', methods = ['GET'])
