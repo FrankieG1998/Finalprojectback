@@ -1,9 +1,24 @@
 from flask import Blueprint, render_template
+from datetime import timedelta
 import firebase_admin
 from firebase_admin import credentials, storage
 
+# Your provided JSON as a dictionary
+firebase_config = {
+  "type": "service_account",
+  "project_id": "frankie-s-sports-images",
+  "private_key_id": "dc583cddc2fa97405e15e5438ea1edbfda22dfe1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG...[trimmed for brevity]...Jicw82A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-23k3y@frankie-s-sports-images.iam.gserviceaccount.com",
+  "client_id": "115912095377977091633",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-23k3y%40frankie-s-sports-images.iam.gserviceaccount.com"
+}
+
 # Initialize Firebase
-cred = credentials.Certificate("../../frankie-s-sports-images-firebase-adminsdk-23k3y-dc583cddc2.json") # This is a JSON key you get from Firebase Console
+cred = credentials.Certificate(firebase_config)
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'frankie-s-sports-images.appspot.com'
 })
