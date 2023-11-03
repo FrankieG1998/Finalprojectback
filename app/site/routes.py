@@ -8,7 +8,7 @@ firebase_config = {
   "type": "service_account",
   "project_id": "frankie-s-sports-images",
   "private_key_id": "dc583cddc2fa97405e15e5438ea1edbfda22dfe1",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG...[trimmed for brevity]...Jicw82A==-----END PRIVATE KEY-----",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG...[trimmed for brevity]...Jicw82A==\n-----END PRIVATE KEY-----",
   "client_email": "firebase-adminsdk-23k3y@frankie-s-sports-images.iam.gserviceaccount.com",
   "client_id": "115912095377977091633",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
