@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, storage
 
 # Initialize Firebase
-cred = credentials.Certificate("path/to/your/firebase/credentials.json") # This is a JSON key you get from Firebase Console
+cred = credentials.Certificate("frankie-s-sports-images-firebase-adminsdk-23k3y-dc583cddc2.json") # This is a JSON key you get from Firebase Console
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'frankie-s-sports-images.appspot.com'
 })
