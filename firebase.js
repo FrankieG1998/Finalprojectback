@@ -8,17 +8,5 @@ const firebaseConfig = {
   messagingSenderId: "565582224329",
   appId: "1:565582224329:web:b53eaecc880b505117a618"
 };
-
-// Function to get the image URL
-export const getImageUrl = async (imageName) => {
-  const storageRef = storage.ref(imageName);
-  try {
-    const url = await storageRef.getDownloadURL();
-    return url;
-  } catch (error) {
-    console.error("Error fetching image from Firebase:", error);
-    throw new Error(error);
-  }
-
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
