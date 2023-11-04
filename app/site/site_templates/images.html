@@ -40,17 +40,4 @@
         </div>
     </div>
 </section>
-
-<script type="module">
-  import { getImageUrl } from '../../../firebase.js'; // Adjust the path
-
-  // Use this function when the DOM is fully loaded
-  window.addEventListener('DOMContentLoaded', (event) => {
-    getImageUrl('sample_image.jpg').then(url => {
-      document.getElementById('firebase-image').src = url;
-    }).catch(error => {
-      console.error("Failed to load image:", error);
-    });
-  });
-</script>
 {% endblock %}
