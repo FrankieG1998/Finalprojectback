@@ -58,6 +58,8 @@
 
   // Load the image from Firebase Storage
   const imageRef = storage.ref('sample_image.jpg');
+    console.log(imageRef);
+    console.log(imageRef.getDownloadURL());
   imageRef.getDownloadURL().then(url => {
     document.getElementById('firebase-image').src = url;
   }).catch(error => {
