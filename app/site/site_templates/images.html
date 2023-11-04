@@ -5,39 +5,63 @@
     <div class="container p-5 bg-dark">
         <div class="row">
             <div class="d-md-flex bg-dark align-items-center justify-content-evenly">
-                <h1 class="col text-center">{{ current_user.email}}'s All Images</h1> <!-- user profile -->
+                <h1 class="col text-center">{{ current_user.email }}'s All Images</h1> <!-- user profile -->
             </div>
         </div>
     </div>
 </section>
 
 <section class="text-center">
-<div class="container p-10">
-    <div class="row"><br>
-        <h3 class="p-5">User Details</h3> <!--profile-->
-        <ul class="list-group">
-            <li class="list-group-item">Email: {{ current_user.email }}</li>
-            <li class="list-group-item">Token: {{ current_user.token }} </li>
-        </ul>
-    </div>
-
-    <div class="row"><br>
-        <h3 class="p-5">User Images</h3> <!--profile-->
-        <ul class="list-group">
-            <li class="list-group-item">
-                <!-- Firebase Image -->
-                <img src="{{ image_url }}" alt="Image from Firebase">
-            </li>
-        </ul>
-    </div>
-
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-4"></div>
-        <div class="col-3 p-10">
-            <img src="../../static/images/my_image_gallery.jpg" class="d-flex align-items-center justify-content-center p-50 img-fluid" alt="">
+    <div class="container p-10">
+        <div class="row"><br>
+            <h3 class="p-5">User Details</h3> <!--profile-->
+            <ul class="list-group">
+                <li class="list-group-item">Email: {{ current_user.email }}</li>
+                <li class="list-group-item">Token: {{ current_user.token }} </li>
+            </ul>
         </div>
-        <div class="col-3"></div>
+
+        <div class="row"><br>
+            <h3 class="p-5">User Images</h3> <!--profile-->
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <!-- Firebase Image -->
+                    <img id="firebase-image" alt="Image from Firebase">
+                </li>
+            </ul>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-4"></div>
+            <div class="col-3 p-10">
+                <img src="../../static/images/my_image_gallery.jpg" class="d-flex align-items-center justify-content-center p-50 img-fluid" alt="">
+            </div>
+            <div class="col-3"></div>
+        </div>
     </div>
-</div>
 </section>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.min.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCWDDT0J11CZXCglIVTYXRjpC9--X62A94",
+    authDomain: "frankie-s-sports-images.firebaseapp.com",
+    projectId: "frankie-s-sports-images",
+    storageBucket: "frankie-s-sports-images.appspot.com",
+    messagingSenderId: "565582224329",
+    appId: "1:565582224329:web:b53eaecc880b505117a618"
+  };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const storage = firebase.storage();
+
+  // Load the image from Firebase Storage
+  const imageRef = storage.ref('sample_image.jpg');
+  imageRef.getDownloadURL().then(url => {
+    document.getElementById('firebase-image').src = url;
+  }).catch(error => {
+    console.error("Error fetching image from Firebase:", error);
+  });
+</script>
 {% endblock %}
