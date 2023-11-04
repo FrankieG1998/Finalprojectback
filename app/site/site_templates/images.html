@@ -40,4 +40,14 @@
         </div>
     </div>
 </section>
+
+<script src="../../firebase.js"></script>
+<script>
+  // Call the function on DOM load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Assuming 'sample_image.jpg' is the name of your image in Firebase Storage
+    getImageFromFirebase('sample_image.jpg', 'firebase-image');
+  });
+</script>
+
 {% endblock %}
