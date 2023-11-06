@@ -9,6 +9,7 @@ const firebaseConfig = {
   appId: "1:565582224329:web:b53eaecc880b505117a618"
 };
 
+const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 window.getImageFromFirebase = function(imageName, elementId) {
@@ -22,5 +23,3 @@ window.getImageFromFirebase = function(imageName, elementId) {
       console.error("Error loading image: ", error);
     });
 };
-
-const app = initializeApp(firebaseConfig);
