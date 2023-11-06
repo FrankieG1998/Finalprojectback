@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
 const firebaseConfig = {
   apiKey: "AIzaSyCWDDT0J11CZXCglIVTYXRjpC9--X62A94",
   authDomain: "frankie-s-sports-images.firebaseapp.com",
