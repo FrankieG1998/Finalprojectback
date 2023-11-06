@@ -23,4 +23,3 @@ window.getImageFromFirebase = function(imageName, elementId) {
 };
 
 const app = initializeApp(firebaseConfig);
-export const storage = getStorage(app);
