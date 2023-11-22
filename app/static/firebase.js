@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const auth = getAuth(app);
 
 window.getImageFromFirebase = function(imageName, elementId) {
   const storageRef = ref(storage, imageName);
@@ -27,7 +28,7 @@ window.getImageFromFirebase = function(imageName, elementId) {
     });
 };
 
-const auth = getAuth(app);
+
 
 window.uploadImageToFirebase = function(userId, file) {
   // Create a storage reference with the user's ID and the file name
