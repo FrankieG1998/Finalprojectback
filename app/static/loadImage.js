@@ -66,10 +66,3 @@ function uploadImageToFirebase(userId, file) {
     console.error("Error uploading image: ", error);
   });
 }
-
-
-function getCurrentUserId() {
-  // This is a placeholder function. You need to replace it with actual logic to get the user's ID.
-  // For example, you might get it from the server session or a cookie.
-  return 'some-user-id'; // Replace with actual user ID retrieval logic
-}
