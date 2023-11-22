@@ -1,3 +1,5 @@
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
+
 // Function to load or hide image based on the URL
 window.onload = function() {
   const path = window.location.pathname;
@@ -21,15 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (file) {
       // Extract the email from the list item
       const userEmailElement = document.getElementById('userEmail');
-      const userEmail = userEmailElement.innerText.split(': ')[1].trim();
-      const userId = userEmail; // Use the email as the user ID (not recommended for real applications)
-
-      // Proceed with the upload using the userId (email)
+      const userEmail = userEmailElement.textContent.split(': ')[1].trim();
+      const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
+      
+      // Proceed with the upload using the userId
       const storageRef = ref(getStorage(), `images/${userId}/${file.name}`);
       uploadBytes(storageRef, file).then((snapshot) => {
         console.log('Uploaded a blob or file!');
         // Close the modal programmatically
-        const uploadImageModal = bootstrap.Modal.getInstance(document.getElementById('uploadImageModal'));
+        // Note: You may need to adjust this if you're not using Bootstrap JS
+        const uploadImageModal = new bootstrap.Modal(document.getElementById('uploadImageModal'));
         uploadImageModal.hide();
         
         // Optionally, you can retrieve the URL of the uploaded file
