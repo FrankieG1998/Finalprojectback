@@ -1,5 +1,5 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
-
+import { getImageFromFirebase, uploadImageToFirebase } from './firebase.js';
 // Function to load or hide image based on the URL
 window.onload = function() {
   const path = window.location.pathname;
