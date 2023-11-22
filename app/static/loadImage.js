@@ -12,6 +12,8 @@ window.onload = function() {
   }
 };
 
+// loadImage.js
+
 document.addEventListener('DOMContentLoaded', function() {
   const uploadButton = document.getElementById('uploadButton');
   const imageUploadInput = document.getElementById('imageUpload');
@@ -19,14 +21,40 @@ document.addEventListener('DOMContentLoaded', function() {
   uploadButton.addEventListener('click', function() {
     const file = imageUploadInput.files[0];
     if (file) {
-      // Assuming you have a function to get the current user's ID
-      const userId = getCurrentUserId(); // Implement this function to get the logged-in user's ID
-      uploadImageToFirebase(userId, file);
+      // Get the current user's ID
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userId = user.uid;
+          uploadImageToFirebase(userId, file);
+        } else {
+          console.error('No user signed in.');
+        }
+      });
     } else {
-      console.log('No file selected!');
+      console.error('No file selected!');
     }
   });
 });
+
+function uploadImageToFirebase(userId, file) {
+  const storageRef = ref(getStorage(), `images/${userId}/${file.name}`);
+  uploadBytes(storageRef, file).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+    // Close the modal programmatically
+    const uploadImageModal = bootstrap.Modal.getInstance(document.getElementById('uploadImageModal'));
+    uploadImageModal.hide();
+    
+    // Optionally, you can retrieve the URL of the uploaded file
+    getDownloadURL(snapshot.ref).then((url) => {
+      console.log('File available at', url);
+      // Here you can update the UI with the new image
+    });
+  }).catch((error) => {
+    console.error("Error uploading image: ", error);
+  });
+}
+
 
 function getCurrentUserId() {
   // This is a placeholder function. You need to replace it with actual logic to get the user's ID.
