@@ -48,21 +48,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-
-function uploadImageToFirebase(userId, file) {
-  const storageRef = ref(getStorage(), `images/${userId}/${file.name}`);
-  uploadBytes(storageRef, file).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
-    // Close the modal programmatically
-    const uploadImageModal = bootstrap.Modal.getInstance(document.getElementById('uploadImageModal'));
-    uploadImageModal.hide();
-    
-    // Optionally, you can retrieve the URL of the uploaded file
-    getDownloadURL(snapshot.ref).then((url) => {
-      console.log('File available at', url);
-      // Here you can update the UI with the new image
-    });
-  }).catch((error) => {
-    console.error("Error uploading image: ", error);
-  });
-}
