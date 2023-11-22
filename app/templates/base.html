@@ -33,7 +33,7 @@
                         <a href="{{ url_for('site.images') }}" class="nav-link">Images</a>   
                     </li>
                     <li class="nav-item">
-                         <a href="#" class="nav-link">Add Images</a> 
+                      <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#uploadImageModal">Add Images</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a>
@@ -51,14 +51,22 @@
         </div>
     </nav>
 <!-- Mysterious placeholder comment! -->
-    <div class="container mt-5 pt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h4>Upload New Image</h4>
-            <input type="file" id="imageUpload" accept="image/*" class="form-control" />
-            <button id="uploadButton" class="btn btn-primary mt-2">Upload Image</button>
-        </div>
+<div class="modal fade" id="uploadImageModal" tabindex="-1" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadImageModalLabel">Upload New Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" id="imageUpload" accept="image/*" class="form-control" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="uploadButton">Upload Image</button>
+      </div>
     </div>
+  </div>
 </div>
 {% block content %}
 {% endblock %}
