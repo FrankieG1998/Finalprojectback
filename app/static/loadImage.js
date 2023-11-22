@@ -12,8 +12,6 @@ window.onload = function() {
   }
 };
 
-// loadImage.js
-
 document.addEventListener('DOMContentLoaded', function() {
   const uploadButton = document.getElementById('uploadButton');
   const imageUploadInput = document.getElementById('imageUpload');
@@ -21,15 +19,26 @@ document.addEventListener('DOMContentLoaded', function() {
   uploadButton.addEventListener('click', function() {
     const file = imageUploadInput.files[0];
     if (file) {
-      // Get the current user's ID
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const userId = user.uid;
-          uploadImageToFirebase(userId, file);
-        } else {
-          console.error('No user signed in.');
-        }
+      // Extract the email from the list item
+      const userEmailElement = document.getElementById('userEmail');
+      const userEmail = userEmailElement.innerText.split(': ')[1].trim();
+      const userId = userEmail; // Use the email as the user ID (not recommended for real applications)
+
+      // Proceed with the upload using the userId (email)
+      const storageRef = ref(getStorage(), `images/${userId}/${file.name}`);
+      uploadBytes(storageRef, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        // Close the modal programmatically
+        const uploadImageModal = bootstrap.Modal.getInstance(document.getElementById('uploadImageModal'));
+        uploadImageModal.hide();
+        
+        // Optionally, you can retrieve the URL of the uploaded file
+        getDownloadURL(snapshot.ref).then((url) => {
+          console.log('File available at', url);
+          // Here you can update the UI with the new image
+        });
+      }).catch((error) => {
+        console.error("Error uploading image: ", error);
       });
     } else {
       console.error('No file selected!');
