@@ -37,16 +37,16 @@ function loadUserImages() {
   const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
   const userImagesRef = ref(getStorage(), `images/${userId}`);
 
-  let container = document.querySelector('.images-container');
-  if (!container) {
-    container = document.createElement('div');
-    container.className = 'images-container';
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.alignItems = 'center';
-    container.style.padding = '0 50px'; // Adjust padding as needed
-    document.body.appendChild(container); // Append container to the body or another parent element
-  }
+  //let container = document.querySelector('.images-container');
+  //if (!container) {
+  //  container = document.createElement('div');
+  //  container.className = 'images-container';
+  //  container.style.display = 'flex';
+  //  container.style.flexDirection = 'column';
+  //  container.style.alignItems = 'center';
+  //  container.style.padding = '0 50px'; // Adjust padding as needed
+  //  document.body.appendChild(container); // Append container to the body or another parent element
+  //}
   
   listAll(userImagesRef).then((res) => {
   res.items.forEach((itemRef) => {
