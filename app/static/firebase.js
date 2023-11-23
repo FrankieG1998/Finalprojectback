@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const auth = getAuth(app);
 
-export getImageFromFirebase = function(imageName, elementId) {
+export function getImageFromFirebase(imageName, elementId) {
   const storageRef = ref(storage, imageName);
   getDownloadURL(storageRef)
     .then((url) => {
@@ -25,25 +25,19 @@ export getImageFromFirebase = function(imageName, elementId) {
     .catch((error) => {
       console.error("Error loading image: ", error);
     });
-};
+}
 
-
-
-export uploadImageToFirebase = function(userId, file) {
-  // Create a storage reference with the user's ID and the file name
+export function uploadImageToFirebase(userId, file, callback) {
   const storageRef = ref(storage, `images/${userId}/${file.name}`);
   
-  // Upload the file to Firebase Storage
   uploadBytes(storageRef, file).then((snapshot) => {
     console.log('Uploaded a blob or file!');
     
-    // Retrieve the URL of the uploaded file
     getDownloadURL(snapshot.ref).then((url) => {
       console.log('File available at', url);
-      // Here you can call a function to update the UI with the new image URL
+      callback(url); // Call the callback function with the URL
     });
   }).catch((error) => {
     console.error("Error uploading image: ", error);
   });
-};
-
+}
