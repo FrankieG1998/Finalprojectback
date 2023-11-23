@@ -46,3 +46,4 @@ window.uploadImageToFirebase = function(userId, file) {
     console.error("Error uploading image: ", error);
   });
 };
+
