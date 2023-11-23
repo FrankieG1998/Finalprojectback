@@ -1,57 +1,54 @@
 // loadImage.js
-import { ref, listAll, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+import { getStorage, ref, listAll, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
 import { uploadImageToFirebase } from './firebase.js'; // Adjust the path as necessary
 
 document.addEventListener('DOMContentLoaded', function() {
   const path = window.location.pathname;
-  const auth = getAuth();
-
-  auth.onAuthStateChanged((user) => {
-    if (user && (path === '/images' || path === '/profile')) {
-      loadUserImages(user.email.replace('@', '_at_')); // Use the user's email as the identifier
-    }
-  });
+  
+  if (path === '/images' || path === '/profile') {
+    loadUserImages();
+  }
 
   const uploadButton = document.getElementById('uploadButton');
   const imageUploadInput = document.getElementById('imageUpload');
   
   uploadButton.addEventListener('click', function() {
     const file = imageUploadInput.files[0];
-    if (file && auth.currentUser) {
-      const userId = auth.currentUser.email.replace('@', '_at_'); // Use the user's email as the identifier
+    if (file) {
+      const userEmailElement = document.getElementById('userEmail');
+      const userEmail = userEmailElement.textContent.split(': ')[1].trim();
+      const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
       
       uploadImageToFirebase(userId, file, (url) => {
         console.log('File available at', url);
-        // Close the modal programmatically if using Bootstrap's JS
-        // Update the UI with the new image URL
+        // Hide the modal if using Bootstrap's JS
+        const uploadImageModal = new bootstrap.Modal(document.getElementById('uploadImageModal'));
+        uploadImageModal.hide();
       });
     } else {
-      console.error('No file selected or no user logged in!');
+      console.error('No file selected!');
     }
   });
 });
 
-function loadUserImages(userId) {
-  const storage = getStorage();
-  const userImagesRef = ref(storage, `images/${userId}/`);
+function loadUserImages() {
+  const userEmailElement = document.getElementById('userEmail');
+  const userEmail = userEmailElement.textContent.split(': ')[1].trim();
+  const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
+  const userImagesRef = ref(getStorage(), `images/${userId}`);
 
-  listAll(userImagesRef).then((result) => {
-    result.items.forEach((imageRef) => {
-      getDownloadURL(imageRef).then((url) => {
-        displayImage(url); // Display each image in the UI
+  listAll(userImagesRef).then((res) => {
+    res.items.forEach((itemRef) => {
+      getDownloadURL(itemRef).then((url) => {
+        // Here, append the images to your page
+        const img = document.createElement('img');
+        img.src = url;
+        img.style.width = '100px'; // Set a width or style as needed
+        img.style.height = '100px'; // Set a height or style as needed
+        document.body.appendChild(img); // Append to a specific element as needed
       });
     });
   }).catch((error) => {
-    console.error("Error loading user's images: ", error);
+    console.error("Error loading user images: ", error);
   });
-}
-
-function displayImage(imageUrl) {
-  // Implement the logic to display images in the UI
-  const gallery = document.getElementById('imageGallery'); // Make sure this element exists
-  const img = document.createElement('img');
-  img.src = imageUrl;
-  img.classList.add('gallery-image'); // Add any necessary CSS classes
-  gallery.appendChild(img);
 }
