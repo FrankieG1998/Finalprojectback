@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const auth = getAuth(app);
 
-window.getImageFromFirebase = function(imageName, elementId) {
+export getImageFromFirebase = function(imageName, elementId) {
   const storageRef = ref(storage, imageName);
   getDownloadURL(storageRef)
     .then((url) => {
@@ -29,7 +29,7 @@ window.getImageFromFirebase = function(imageName, elementId) {
 
 
 
-window.uploadImageToFirebase = function(userId, file) {
+export uploadImageToFirebase = function(userId, file) {
   // Create a storage reference with the user's ID and the file name
   const storageRef = ref(storage, `images/${userId}/${file.name}`);
   
