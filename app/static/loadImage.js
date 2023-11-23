@@ -38,16 +38,15 @@ function loadUserImages() {
   const userImagesRef = ref(getStorage(), `images/${userId}`);
 
   listAll(userImagesRef).then((res) => {
-    res.items.forEach((itemRef) => {
-      getDownloadURL(itemRef).then((url) => {
-        // Here, append the images to your page
-        const img = document.createElement('img');
-        img.src = url;
-        img.style.width = '100px'; // Set a width or style as needed
-        img.style.height = '100px'; // Set a height or style as needed
-        document.body.appendChild(img); // Append to a specific element as needed
-      });
+res.items.forEach((itemRef) => {
+    getDownloadURL(itemRef).then((url) => {
+      // Create an image element
+      const img = document.createElement('img');
+      img.src = url;
+      img.classList.add('user-image');
+      document.querySelector('.images-container').appendChild(img); 
     });
+  });
   }).catch((error) => {
     console.error("Error loading user images: ", error);
   });
