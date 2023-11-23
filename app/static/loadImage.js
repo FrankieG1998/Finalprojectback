@@ -1,47 +1,30 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js';
-import { getImageFromFirebase, uploadImageToFirebase } from './firebase.js';
-// Function to load or hide image based on the URL
-window.onload = function() {
-  const path = window.location.pathname;
-  const imageElement = document.getElementById('firebase-image');
-
-  // Check if we are on the correct path to show the image
-  if (path === '/images' || path === '/profile') {
-    getImageFromFirebase('Michael-Jordan.jpg', 'firebase-image');
-    imageElement.style.display = ''; // This will reset any inline display settings, reverting to default or CSS-defined styles.
-  } else {
-    imageElement.style.display = 'none'; // This hides the image element.
-  }
-};
+import { getImageFromFirebase, uploadImageToFirebase } from './firebase.js'; // Adjust the path as necessary
 
 document.addEventListener('DOMContentLoaded', function() {
+  const imageElement = document.getElementById('firebase-image');
+  const path = window.location.pathname;
+  
+  if (imageElement && (path === '/images' || path === '/profile')) {
+    getImageFromFirebase('Michael-Jordan.jpg', 'firebase-image');
+  }
+
   const uploadButton = document.getElementById('uploadButton');
   const imageUploadInput = document.getElementById('imageUpload');
   
   uploadButton.addEventListener('click', function() {
     const file = imageUploadInput.files[0];
     if (file) {
-      // Extract the email from the list item
       const userEmailElement = document.getElementById('userEmail');
       const userEmail = userEmailElement.textContent.split(': ')[1].trim();
-      const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
+      const userId = userEmail.replace('@', '_at_'); // This may need additional sanitization
       
-      // Proceed with the upload using the userId
-      const storageRef = ref(getStorage(), `images/${userId}/${file.name}`);
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-        // Close the modal programmatically
-        // Note: You may need to adjust this if you're not using Bootstrap JS
+      uploadImageToFirebase(userId, file, (url) => {
+        console.log('File available at', url);
+        // Update the UI with the new image URL
+        // Hide the modal if using Bootstrap's JS
         const uploadImageModal = new bootstrap.Modal(document.getElementById('uploadImageModal'));
         uploadImageModal.hide();
-        
-        // Optionally, you can retrieve the URL of the uploaded file
-        getDownloadURL(snapshot.ref).then((url) => {
-          console.log('File available at', url);
-          // Here you can update the UI with the new image
-        });
-      }).catch((error) => {
-        console.error("Error uploading image: ", error);
       });
     } else {
       console.error('No file selected!');
