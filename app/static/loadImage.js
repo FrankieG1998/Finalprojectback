@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const imageUploadInput = document.getElementById('imageUpload');
   
   uploadButton.addEventListener('click', function() {
+    window.location.href = 'https://finalprojectback-dqrp.onrender.com/images';
     const file = imageUploadInput.files[0];
     if (file) {
       const userEmailElement = document.getElementById('userEmail');
@@ -36,17 +37,6 @@ function loadUserImages() {
   const userEmail = userEmailElement.textContent.split(': ')[1].trim();
   const userId = userEmail.replace('@', '_at_'); // Basic sanitization for file path
   const userImagesRef = ref(getStorage(), `images/${userId}`);
-
-  //let container = document.querySelector('.images-container');
-  //if (!container) {
-  //  container = document.createElement('div');
-  //  container.className = 'images-container';
-  //  container.style.display = 'flex';
-  //  container.style.flexDirection = 'column';
-  //  container.style.alignItems = 'center';
-  //  container.style.padding = '0 50px'; // Adjust padding as needed
-  //  document.body.appendChild(container); // Append container to the body or another parent element
-  //}
   
   listAll(userImagesRef).then((res) => {
   res.items.forEach((itemRef) => {
